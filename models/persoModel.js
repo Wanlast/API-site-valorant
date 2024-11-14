@@ -16,6 +16,7 @@ const persoSchema = new mongoose.Schema({
         "You need to select a role from this list: duelist, controller, sentinel, initiator.",
     },
     trim: true,
+    set: (value) => value.toLowerCase(), // Convertit la valeur en minuscule avant validation
   },
   ultimate: {
     type: String,

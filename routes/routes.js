@@ -12,10 +12,10 @@ export const router = express.Router();
 
 router.get("/persos", catchErrors(getPersos));
 
-router.get("/room/:id", catchErrors(getPerso));
+router.get("/perso/:name", catchErrors(getPerso));
 
 router.post("/perso", catchErrors(addPerso));
 
-router.patch("/perso/:id", catchErrors(updatePerso));
+router.patch("/perso/:name", catchErrors(updatePerso));
 
-router.delete("/perso/:id", catchErrors(deletePerso));
+router.delete("/perso/:name", catchErrors(deletePerso));

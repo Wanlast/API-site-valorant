@@ -1,9 +1,18 @@
 import persoModel from "../models/persoModel.js";
 import { defaultPersos } from "../data/defaultPersos.js";
 
+export const initDefaultPersos = async (req, res) => {
+  for (const agent of defaultPersos) {
+    const existingPerso = await persoModel.findOne({ name: agent.name });
+    if (!existingPerso) {
+      await persoModel.create(agent);
+    }
+  }
+};
+
 export const getPersos = async (req, res) => {
   const persos = await persoModel.find({});
-  res.send({ persos, defaultPersos });
+  res.send(persos);
 };
 
 export const getPerso = async (req, res) => {
