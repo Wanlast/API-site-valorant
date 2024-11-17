@@ -3,6 +3,7 @@ import {
   getPersos,
   addPerso,
   getPerso,
+  getPersoById,
   updatePerso,
   deletePerso,
 } from "../controllers/persoControllers.js";
@@ -13,6 +14,8 @@ export const router = express.Router();
 router.get("/persos", catchErrors(getPersos));
 
 router.get("/perso/:name", catchErrors(getPerso));
+
+router.get("/perso/:id", catchErrors(getPersoById));
 
 router.post("/perso", catchErrors(addPerso));
 

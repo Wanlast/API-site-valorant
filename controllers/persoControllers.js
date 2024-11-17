@@ -1,4 +1,5 @@
 import persoModel from "../models/persoModel.js";
+import mongoose from "mongoose";
 import { defaultPersos } from "../data/defaultPersos.js";
 
 export const initDefaultPersos = async (req, res) => {
@@ -16,7 +17,18 @@ export const getPersos = async (req, res) => {
 };
 
 export const getPerso = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).send("ID invalide.");
+  }
   const perso = await persoModel.findOne({ name: req.params.name });
+  if (!perso) {
+    return res.status(404).send("Aucun agent trouvé.");
+  }
+  res.status(200).send(perso);
+};
+
+export const getPersoById = async (req, res) => {
+  const perso = await persoModel.findById(req.params.id);
   if (!perso) {
     return res.status(404).send("Aucun agent trouvé.");
   }

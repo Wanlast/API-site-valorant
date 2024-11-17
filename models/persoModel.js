@@ -6,6 +6,8 @@ const persoSchema = new mongoose.Schema({
     required: [true, "The name is a required property."],
     unique: [true, "The name is already taken."],
     trim: true,
+    set: (value) =>
+      value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
   },
   role: {
     type: String,
@@ -37,6 +39,9 @@ const persoSchema = new mongoose.Schema({
     },
   },
 });
+
+persoSchema.set("toJSON", { getters: true });
+persoSchema.set("toObject", { getters: true });
 
 const persoModel = mongoose.model("perso", persoSchema);
 
