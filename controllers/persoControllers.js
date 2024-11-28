@@ -17,20 +17,9 @@ export const getPersos = async (req, res) => {
 };
 
 export const getPerso = async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    return res.status(400).send("ID invalide.");
-  }
   const perso = await persoModel.findOne({ name: req.params.name });
   if (!perso) {
-    return res.status(404).send("Aucun agent trouvé.");
-  }
-  res.status(200).send(perso);
-};
-
-export const getPersoById = async (req, res) => {
-  const perso = await persoModel.findById(req.params.id);
-  if (!perso) {
-    return res.status(404).send("Aucun agent trouvé.");
+    return res.status(404).send("No Agent Found");
   }
   res.status(200).send(perso);
 };
@@ -48,15 +37,20 @@ export const updatePerso = async (req, res) => {
     { new: true }
   );
   if (!perso) {
-    return res.status(404).send("Aucun agent trouvé.");
+    return res.status(404).send("No Agent Found");
   }
-  res.status(200).send(perso);
+  res.status(200).send({
+    message: `The agent "${perso.name}" has been successfully updated`,
+    updatedAgent: perso,
+  });
 };
 
 export const deletePerso = async (req, res) => {
   const perso = await persoModel.findOneAndDelete({ name: req.params.name });
   if (!perso) {
-    return res.status(404).send("Aucun agent trouvé.");
+    return res.status(404).send("No Agent Found");
   }
-  res.status(200).send("Agent supprimé avec succès.");
+  res
+    .status(200)
+    .send(`The agent "${perso.name}" has been successfully deleted`);
 };

@@ -1,9 +1,15 @@
-import express from "express";
 import dotenv from "dotenv";
-import mongoose, { mongo } from "mongoose";
-import { router } from "./routes/routes.js";
-import { initDefaultPersos } from "./controllers/persoControllers.js";
 dotenv.config();
+import express from "express";
+
+import mongoose, { mongo } from "mongoose";
+import { initDefaultPersos } from "./controllers/persoControllers.js";
+
+import routes from "./routes/routes.js";
+import privateRoutes from "./routes/privateRoutes.js";
+import passport from "passport";
+
+import "./auth/auth.js";
 
 const PORT = process.env.PORT || 5000;
 
@@ -16,7 +22,13 @@ mongoose.connect(process.env.MONGODB).then(() => {
   initDefaultPersos();
 });
 
-app.use(router);
+app.use(
+  "/private",
+  passport.authenticate("jwt", { session: false }),
+  privateRoutes
+);
+
+app.use(routes);
 
 app.listen(PORT, () => {
   console.log(`Le serveur est lancé sur le port ${PORT} !`);

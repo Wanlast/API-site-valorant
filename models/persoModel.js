@@ -24,6 +24,8 @@ const persoSchema = new mongoose.Schema({
     type: String,
     required: [true, "The ultimate is a required property"],
     trim: true,
+    set: (value) =>
+      value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
   },
   picture: {
     type: String,
@@ -40,9 +42,6 @@ const persoSchema = new mongoose.Schema({
   },
 });
 
-persoSchema.set("toJSON", { getters: true });
-persoSchema.set("toObject", { getters: true });
-
-const persoModel = mongoose.model("perso", persoSchema);
+const persoModel = mongoose.model("persoModel", persoSchema);
 
 export default persoModel;
